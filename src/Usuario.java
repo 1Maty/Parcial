@@ -1,10 +1,10 @@
-import java.util.LinkedList;
+import java.util.*;
 
 public class Usuario {
     private int cedula;
     private LinkedList<Recomendacion> recomendaciones = new LinkedList<Recomendacion>();
     private LinkedList<Vino> meGusta = new LinkedList<Vino>();
-    private LinkedList<Vino> meRecomendaron = new LinkedList<Vino>();
+    private Queue<Vino> meRecomendaron = new LinkedList<Vino>();
 
     public int getCedula() {
         return cedula;
@@ -14,10 +14,11 @@ public class Usuario {
         return meGusta;
     }
 
-    public Usuario(int cedula, LinkedList<Recomendacion> recomendaciones, LinkedList<Vino> meGusta, LinkedList<Vino> meRecomendaron) {
+    public Usuario(int cedula) {
         this.cedula = cedula;
-        this.recomendaciones = recomendaciones;
-        this.meGusta = meGusta;
-        this.meRecomendaron = meRecomendaron;
+    }
+
+    public Queue<Vino> getMeRecomendaron() {
+        return meRecomendaron;
     }
 }
