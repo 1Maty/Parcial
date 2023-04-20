@@ -6,6 +6,11 @@ public class TuVinoImpl implements TuVinoMgt  {
     }
 
     private LinkedList<Vino> vinosRegistrados= new LinkedList<Vino>();
+
+    public LinkedList<Usuario> getUsuariosRegistrados() {
+        return usuariosRegistrados;
+    }
+
     private LinkedList<Usuario> usuariosRegistrados = new LinkedList<Usuario>();
 
     @Override
@@ -24,7 +29,7 @@ public class TuVinoImpl implements TuVinoMgt  {
         boolean esta_vino= false;
         boolean esta_usuario =false;
         for (int i =0; i<vinosRegistrados.size();i++){
-            if(vinosRegistrados.get(i).getNombre()==nombreVino){
+            if(vinosRegistrados.get(i).getNombre().equals(nombreVino)){
                 esta_vino=true;
                 for(int q=0; q<usuariosRegistrados.size();q++){
                     if(usuariosRegistrados.get(q).getCedula()==cedula){
@@ -48,16 +53,22 @@ public class TuVinoImpl implements TuVinoMgt  {
     public void agregarRecomendación(int cedula, int cedulaARecomendar, String nombreVino) throws EntidadNoExiste{// lo entendi mal tnegoque usar el cedula a recomendar y de ahi ir entre los q le gustan a ese para encontrar el vino.
         boolean esta_usuario=false;
         boolean esta_vino=false;
+        Vino elRecomendado= null;
         for(int i =0; i<usuariosRegistrados.size();i++){
             if(usuariosRegistrados.get(i).getCedula()==cedula){
                 esta_usuario=true;
-                for(int q=0; i<vinosRegistrados.size();q++){
-                    if(vinosRegistrados.get(q).getNombre().equals(nombreVino)){
-                        esta_usuario=true;
-                        usuariosRegistrados.get(i).getMeRecomendaron().add(vinosRegistrados.get(q));
+                for(int q=0; q<usuariosRegistrados.get(i).getMeGusta().size();q++){
+                    if(usuariosRegistrados.get(i).getMeGusta().get(q).getNombre().equals(nombreVino)){
+                        esta_vino=true;
+                        elRecomendado =usuariosRegistrados.get(i).getMeGusta().get(q);
             }}
         }
     }
+        for (int i = 0; i<usuariosRegistrados.size();i++){
+            if(usuariosRegistrados.get(i).getCedula()==cedulaARecomendar){
+                usuariosRegistrados.get(i).getMeRecomendaron().add(elRecomendado);
+            }
+        }
         if(!esta_vino || !esta_usuario){
             throw  new EntidadNoExiste("No esta o el usuario o el vino.");
         }
@@ -69,6 +80,7 @@ public class TuVinoImpl implements TuVinoMgt  {
         for(int i=0; i<usuariosRegistrados.size();i++){
             if(usuariosRegistrados.get(i).getCedula()==cedula){
                  salida = usuariosRegistrados.get(i).getMeRecomendaron().peek();
+                usuariosRegistrados.get(i).getMeRecomendaron().toArray();
             }
         }
     return salida;

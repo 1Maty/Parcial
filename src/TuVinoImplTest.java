@@ -36,15 +36,33 @@ public class TuVinoImplTest {
         TuVinoImpl vinoPruebitas3= new TuVinoImpl();
         try {
             Usuario matias = new Usuario(234);
+            Usuario pedro = new Usuario(245);
+            vinoPruebitas3.getUsuariosRegistrados().add(matias);
+            vinoPruebitas3.getUsuariosRegistrados().add(pedro);
             vinoPruebitas3.crearVino("faisan","alguna","uruguay",23);
-            vinoPruebitas3.agregarRecomendación();
+            vinoPruebitas3.agregarVinoQueGusta(234,"faisan");
+            vinoPruebitas3.agregarRecomendación(234,245,"faisan");
+            assertEquals(pedro.getMeRecomendaron().size(),1);
         } catch (EntidadYaExiste e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
+        } catch (EntidadNoExiste e) {
+            System.out.println(e);
         }
 
     }
 
     @Test
     public void obtenerProximaRecomendación() {
+        TuVinoImpl pruebitaVino4 = new TuVinoImpl();
+        try{
+            Usuario matias= new Usuario(23);
+            Vino vinacho = new Vino("faisan","alguna","uruguay",44);
+            pruebitaVino4.crearVino("faisan","alguna","uruguay",44);
+            pruebitaVino4.getUsuariosRegistrados().add(matias);
+            matias.getMeRecomendaron().add(vinacho);
+            assertEquals(pruebitaVino4.obtenerProximaRecomendación(23),vinacho);
+        } catch (EntidadYaExiste e) {
+            System.out.println(e);
+        }
     }
 }
